@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from "react";
 import "./Projects.css";
-import Sidebar from "../../components/sidebar/Sidebar";
+import Sidebar from "../../components/sidebar/SideBar";
 import MiniStats from "../../components/MiniStats/MiniStats";
 import { getAllUsers } from "../../api/userApi";
 import { getAllTasks, createTask, updateTask, deleteTask } from "../../api/tasksApi";

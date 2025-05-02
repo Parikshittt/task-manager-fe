@@ -1,6 +1,5 @@
 import React from "react";
 import './AccountSelection.css';
-import employees from "../../fakeData/users.json";
 import { useNavigate } from "react-router-dom";
 
 export default function AccountSelection() {

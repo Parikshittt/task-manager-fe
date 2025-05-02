@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from "react";
 import './TeamMembers.css';
-import SideBar from "../../components/sidebar/Sidebar";
+import SideBar from "../../components/sidebar/SideBar";
 import { getAllUsers } from "../../api/userApi";
 import Loader from '../../components/Loader/Loader';
 
