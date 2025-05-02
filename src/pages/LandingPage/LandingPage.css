@@ -1,0 +1,118 @@
+:root {
+  --background-main: #121212;
+  --background-card: #1f1f1f;
+  --input-bg: #2a2a2a;
+  --text-primary: #e4e4e4;
+  --text-secondary: #bbbbbb;
+  --accent-color: #9f7aea; /* Purple accent */
+  --shadow-color: #00ff00; /* Lime for slight glow */
+}
+
+.landing-page {
+  min-height: 100vh;
+  background-color: var(--background-main);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+.form-card {
+  background-color: var(--background-card);
+  padding: 2rem 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0px 0px 15px 2px var(--shadow-color);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+}
+
+h1 {
+  color: var(--accent-color);
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+label {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.4rem;
+}
+
+input {
+  background-color: var(--input-bg);
+  border: 1px solid #333;
+  color: var(--text-primary);
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+}
+
+input:focus {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 5px var(--accent-color);
+}
+
+.primary-btn {
+  margin-top: 1rem;
+  background-color: var(--accent-color);
+  border: none;
+  color: #fff;
+  padding: 0.8rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.primary-btn:hover {
+  background-color: #b794f4;
+}
+
+.primary-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.button-with-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.inline-loader-container {
+  display: inline-flex;
+  align-items: center;
+}
+
+.secondary-btn {
+  margin-top: 1rem;
+  background: none;
+  border: 1px solid var(--accent-color);
+  color: var(--accent-color);
+  padding: 0.7rem;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.secondary-btn:hover {
+  background-color: var(--accent-color);
+  color: #1f1f1f;
+}

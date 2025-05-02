@@ -1,0 +1,99 @@
+.team-members-container {
+  padding: 20px;
+  margin-left: 200px;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+}
+
+.no-team-message {
+  color: #999;
+  text-align: center;
+  padding: 20px;
+  font-style: italic;
+  width: 100%;
+  background-color: #2f2f41;
+  border-radius: 12px;
+  margin: 20px 0;
+}
+
+.team-members-title {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #bbff00;
+}
+
+.summary-section {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.summary-card {
+  background-color: #2f2f41;
+  padding: 16px 24px;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  min-width: 200px;
+}
+
+.summary-card h2 {
+  font-size: 18px;
+  margin-bottom: 8px;
+  color: #aaa;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.team-card {
+  background-color: #ffffff;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #dcdcdc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.team-card h3 {
+  margin-bottom: 6px;
+  color: #2c3e50;
+}
+
+.designation-text {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 12px;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.status-badge {
+  background-color: #e0f7e9;
+  color: #0e3b21;
+  font-weight: bold;
+}
+
+.assignee-badge {
+  background-color: #e3f2fd;
+  color: #1565c0;
+}
+
+.neutral-badge {
+  background-color: #f0f0f0;
+  color: #555;
+}

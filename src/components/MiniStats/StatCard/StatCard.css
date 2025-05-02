@@ -1,0 +1,36 @@
+.miniStat_Card_side_card {
+  flex: 1;
+  background-color: #2f2f41;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  text-align: center;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.miniStat_Card_side_card:hover {
+  background-color: #3d3d57;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+.miniStat_Card_side_card h3 {
+  font-size: 0.9rem;
+  color: #ccc;
+  margin-bottom: 0.5rem;
+  white-space: nowrap;
+  width: fit-content;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.miniStat_Card_side_card p {
+  font-size: 1.4rem;
+  color: #00c9a7;
+  font-weight: bold;
+}

@@ -1,0 +1,53 @@
+.account-selection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  overflow: scroll;
+}
+
+.org-tree {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.employee-node {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  margin: 20px;
+  position: relative;
+}
+
+.employee-info {
+  padding: 10px;
+  background-color: #2f80ed;
+  color: white;
+  border-radius: 5px;
+  width: 120px;
+  transition: ease-in-out 0.2s;
+}
+
+.employee-info:hover {
+  box-shadow: 0px 0px 10px yellowgreen;
+  cursor: pointer;
+}
+
+.children {
+  display: flex;
+  justify-content: center;
+}
+
+.employee-node .children .employee-node {
+  margin-top: 20px;
+}
+
+.employee-node .children .employee-info {
+  background-color: #053747;
+}
