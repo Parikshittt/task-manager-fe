@@ -1,6 +1,5 @@
 import axios from 'axios';
-
-const baseURL = 'http://localhost:3000';
+import baseURL from '../config/api';
 
 // Get all tasks
 export const getAllTasks = () => {

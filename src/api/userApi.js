@@ -1,6 +1,5 @@
 import axios from 'axios';
-
-const baseURL = 'http://localhost:3000';
+import baseURL from '../config/api';
 
 export const login = (username, password) => {
     return axios.post(`${baseURL}/api/auth/login`, {
