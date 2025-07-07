@@ -116,3 +116,15 @@ input:focus {
   background-color: var(--accent-color);
   color: #1f1f1f;
 }
+
+.role-note {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-top: 0.3rem;
+  font-style: italic;
+}
+
+input:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}

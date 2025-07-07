@@ -8,6 +8,8 @@ import TaskModalForm from "../../components/TaskModal/TaskModalForm";
 import Loader from "../../components/Loader/Loader";
 
 export default function Dashboard() {
+    // Define status order for navigation
+    const STATUS_ORDER = ["To Do", "Started", "On Hold", "Completed"];
     const [employees, setEmployees] = useState([]);
     const [tasks, setTasks] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -73,7 +75,7 @@ export default function Dashboard() {
                 case "On Hold":
                     acc.onHold++;
                     break;
-                case "Done":
+                case "Completed":
                     acc.done++;
                     break;
                 default:
@@ -97,6 +99,7 @@ export default function Dashboard() {
 
     // Open modal for editing an existing task
     const handleEditTask = (task) => {
+        console.log(task)
         setCurrentTask(task);
         setIsModalOpen(true);
     };
@@ -121,13 +124,65 @@ export default function Dashboard() {
         }
     };
 
+    // Move task to previous status
+    const handleMoveTaskLeft = async (task, e) => {
+        e.stopPropagation(); // Prevent opening the edit modal
+        
+        const currentStatusIndex = STATUS_ORDER.indexOf(task.status);
+        if (currentStatusIndex <= 0) return; // Already at the leftmost status
+        
+        const newStatus = STATUS_ORDER[currentStatusIndex - 1];
+        await updateTaskStatus(task, newStatus);
+    };
+    
+    // Move task to next status
+    const handleMoveTaskRight = async (task, e) => {
+        e.stopPropagation(); // Prevent opening the edit modal
+        
+        const currentStatusIndex = STATUS_ORDER.indexOf(task.status);
+        if (currentStatusIndex >= STATUS_ORDER.length - 1) return; // Already at the rightmost status
+        
+        const newStatus = STATUS_ORDER[currentStatusIndex + 1];
+        await updateTaskStatus(task, newStatus);
+    };
+    
+    // Update task status
+    const updateTaskStatus = async (task, newStatus) => {
+        setIsLoadingTasks(true);
+        try {
+            const taskToUpdate = {
+                ...task,
+                status: newStatus
+            };
+            
+            const response = await updateTask(taskToUpdate.id, taskToUpdate);
+            const updatedTask = response.data;
+            
+            // Update local state
+            const updatedTasks = tasks.map(t => 
+                t.id === updatedTask.id ? updatedTask : t
+            );
+            setTasks(updatedTasks);
+            console.log(`Task status updated to ${newStatus}:`, updatedTask);
+        } catch (error) {
+            console.error('Error updating task status:', error);
+            alert('There was an error updating the task status. Please try again.');
+        } finally {
+            setIsLoadingTasks(false);
+        }
+    };
+    
     // Handle saving task (create or update)
     const handleSaveTask = async (taskData) => {
         setIsLoadingTasks(true);
         try {
             if (currentTask) {
                 // Update existing task
-                const response = await updateTask(taskData.id, taskData);
+                const taskToUpdate = {
+                    ...taskData,
+                    created_by_id: currentUserId
+                };
+                const response = await updateTask(taskToUpdate.id, taskToUpdate);
                 const updatedTask = response.data;
                 
                 // Update local state
@@ -141,6 +196,7 @@ export default function Dashboard() {
                 const taskToCreate = {
                     ...taskData,
                     project_id: taskData.project_id || 1, // Default project ID if not provided
+                    created_by_id: currentUserId,
                 };
                 
                 const response = await createTask(taskToCreate);
@@ -188,7 +244,7 @@ export default function Dashboard() {
                                             onClick={(e) => handleDeleteTask(task.id, e)}
                                             title="Delete task"
                                         >
-                                            ×
+                                            ❌
                                         </button>
                                     </div>
                                     <p>{task.description}</p>
@@ -198,6 +254,24 @@ export default function Dashboard() {
                                         </span>
                                         <span className="badge status-badge">{task.status}</span>
                                         {task.priority && <span className="badge priority-badge">{task.priority}</span>}
+                                    </div>
+                                    <div className="task-status-controls">
+                                        <button 
+                                            className="status-arrow left-arrow"
+                                            onClick={(e) => handleMoveTaskLeft(task, e)}
+                                            disabled={STATUS_ORDER.indexOf(task.status) <= 0}
+                                            title={STATUS_ORDER.indexOf(task.status) > 0 ? `Move to ${STATUS_ORDER[STATUS_ORDER.indexOf(task.status) - 1]}` : ""}
+                                        >
+                                            ◀
+                                        </button>
+                                        <button 
+                                            className="status-arrow right-arrow"
+                                            onClick={(e) => handleMoveTaskRight(task, e)}
+                                            disabled={STATUS_ORDER.indexOf(task.status) >= STATUS_ORDER.length - 1}
+                                            title={STATUS_ORDER.indexOf(task.status) < STATUS_ORDER.length - 1 ? `Move to ${STATUS_ORDER[STATUS_ORDER.indexOf(task.status) + 1]}` : ""}
+                                        >
+                                            ▶
+                                        </button>
                                     </div>
                                 </div>
                             );
@@ -230,7 +304,7 @@ export default function Dashboard() {
                     {renderTaskBoard("To Do", "To Do")}
                     {renderTaskBoard("Started", "Started")}
                     {renderTaskBoard("On Hold", "On Hold")}
-                    {renderTaskBoard("Done", "Completed")}
+                    {renderTaskBoard("Completed", "Completed")}
                 </div>
                 
                 {isModalOpen && (

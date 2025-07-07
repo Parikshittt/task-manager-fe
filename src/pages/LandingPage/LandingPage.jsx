@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import './LandingPage.css';
+// Add additional CSS for the role note
 import { login, signup } from '../../api/userApi';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { getAllDesignations } from '../../api/designationApi';
+import { getAllRoles } from '../../api/rolesApi';
+import { setDesignations, setRoles } from '../../features/designation/designationAndRoleSlice';
+import { useSelector } from 'react-redux';
 import Loader from '../../components/Loader/Loader';
-
 export default function LandingPage() {
     const navigate = useNavigate();
     const [isLogin, setIsLogin] = useState(true);
@@ -14,6 +19,31 @@ export default function LandingPage() {
         name: '',
         role: ''
     });
+    const dispatch = useDispatch();
+    const designations = useSelector((state) => state.designationAndRoles.designations) || [];
+    const roles = useSelector((state) => state.designationAndRoles.roles) || [];
+    console.log("designations without API -->", designations);
+    console.log("roles without API -->", roles);
+
+    useEffect(() => {
+        const fetchDesignationsAndRoles = async () => {
+            try {
+                const [designationsResponse, rolesResponse] = await Promise.all([
+                    getAllDesignations(),
+                    getAllRoles(),
+                ]);
+                dispatch(setDesignations(designationsResponse.data.designations));
+                dispatch(setRoles(rolesResponse.data));
+                console.log("designations with API -->", designationsResponse.data.designations);
+                console.log("roles with API -->", rolesResponse.data);
+            } catch (error) {
+                console.error('Error fetching designations and roles:', error);
+            }
+        };
+        if (designations.length === 0 && roles.length === 0) {
+            fetchDesignationsAndRoles();
+        }
+    }, [designations, roles, dispatch]);
 
     // Check if user is already logged in
     useEffect(() => {
@@ -53,16 +83,22 @@ export default function LandingPage() {
     const handleSignupApi = async (userData) => {
         setIsLoading(true);
         try {
-            const response = await signup(userData);
-            console.log('Signup API response:', response.data);
+            // Hardcode role as 'Cadet' with value 5 in the payload
+            const payloadWithRole = {
+                ...userData,
+                role: 5 // Hardcoded role value for 'Cadet'
+            };
             
+            const response = await signup(payloadWithRole);
+            console.log('Signup API response:', response.data);
+
             // Store user info in localStorage, just like login
             localStorage.setItem('currentEmp', response.data.id);
             if (response.data) {
                 localStorage.setItem('userName', response.data.name || '');
                 localStorage.setItem('userRole', response.data.role || '');
             }
-            
+
             // Redirect to projects page
             navigate('/projects');
         } catch (error) {
@@ -86,7 +122,7 @@ export default function LandingPage() {
 
     return (
         <div className="landing-page">
-            <div className="form-card">
+            {(designations.length > 0 && roles.length > 0) ? <div className="form-card">
                 <h1>{isLogin ? 'Login' : 'Sign Up'}</h1>
                 <form onSubmit={handleSubmit}>
                     {['username', 'password', ...(!isLogin ? ['name', 'role'] : [])].map((field) => (
@@ -95,10 +131,14 @@ export default function LandingPage() {
                             <input
                                 type={field === 'password' ? 'password' : 'text'}
                                 name={field}
-                                value={formData[field]}
+                                value={field === 'role' ? 'Cadet' : formData[field]}
                                 onChange={handleInputChange}
                                 required
+                                disabled={field === 'role'}
                             />
+                            {field === 'role' && !isLogin && (
+                                <p className="role-note">Please contact your IT team or HR department to update your role as needed.</p>
+                            )}
                         </div>
                     ))}
                     <button type="submit" className="primary-btn" disabled={isLoading}>
@@ -117,7 +157,9 @@ export default function LandingPage() {
                 <button onClick={() => setIsLogin(!isLogin)} className="secondary-btn">
                     {isLogin ? 'Switch to Sign Up' : 'Switch to Login'}
                 </button>
-            </div>
+            </div> : <div className="form-card">
+                <Loader size="medium" />
+            </div>}
         </div>
     );
 

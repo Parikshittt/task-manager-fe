@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./TaskModalForm.css";
+import "./TaskModalForm.responsive.css";
 import { createTask, updateTask } from "../../api/tasksApi";
 import Loader from "../Loader/Loader";
 

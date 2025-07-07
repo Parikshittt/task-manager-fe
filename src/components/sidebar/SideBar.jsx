@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./SideBar.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export default function SideBar() {
     const [sidebarImageUrl, setSidebarImageUrl] = useState(null);
+    const location = useLocation();
+    const currentPath = location.pathname;
 
     const sideBar_img_urls = {
         morning: "https://media.istockphoto.com/id/1286642458/vector/clouds-pixel-game-graphics-8-bit-sky-smoke-vector.jpg?s=612x612&w=0&k=20&c=5RxCK2H5mrjPey0IJWxoDgIkcb1Oo0WumvWp4fxUx4E=",
@@ -66,7 +68,11 @@ export default function SideBar() {
             <div className="sidebar_menu">
                 {
                     menu_item_level_1.map((item) => (
-                        <div key={item.id} className="sidebar_item" onClick={() => handleMenuItemClick(item.route)}>
+                        <div 
+                            key={item.id} 
+                            className={`sidebar_item ${currentPath === item.route ? 'active' : ''}`} 
+                            onClick={() => handleMenuItemClick(item.route)}
+                        >
                             <span>{item.name}</span>
                         </div>
                     ))

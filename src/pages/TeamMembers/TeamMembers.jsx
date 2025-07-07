@@ -83,7 +83,7 @@ export default function TeamMembers() {
                         directReports.map(emp => (
                             <div key={emp.id} className="team-card">
                                 <h3>{emp.name}</h3>
-                                <p className="designation-text">{emp.role || "No designation"}</p>
+                                <p className="designation-text">{emp.designation_id || "No designation"}</p>
                                 <span className="badge assignee-badge">👤 {emp.id}</span>
                             </div>
                         ))
