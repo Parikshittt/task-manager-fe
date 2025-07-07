@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { counterSlice } from '../features/counter/CounterSlice'
+import { designationAndRolesSlice } from '../features/designation/designationAndRoleSlice'
 
 export const store = configureStore({
     reducer: {
-        counter: counterSlice.reducer,
+        designationAndRoles: designationAndRolesSlice.reducer,
     },
 })
